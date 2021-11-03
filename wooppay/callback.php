@@ -20,7 +20,7 @@ if (isset($_GET['cart_id']) && isset($_GET['key'])) {
 				$invoice_request->serviceName = Configuration::get('WOOPPAY_SERVICE_NAME');
 				$invoice = $client->createInvoice($invoice_request);
 				$operation = $client->getOperationData((int)$invoice->response->operationId);
-				if ($operation->response->records[0]->status == WooppayOperationStatus::OPERATION_STATUS_DONE) {
+				if ($operation->response->records[0]->status == WooppayOperationStatus::OPERATION_STATUS_DONE || $operation->response->records[0]->status == WooppayOperationStatus::OPERATION_STATUS_WAITING) {
 					$id_order = Order::getOrderByCartId($id);
 					if ($id_order) {
 						$order = new Order($id_order);
